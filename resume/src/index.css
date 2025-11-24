@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@layer base {
+	html {
+		font-family: "Inter", sans-serif;
+	}
+}
+
+::selection {
+	background-color: darkgrey;
+	color: black;
+}
