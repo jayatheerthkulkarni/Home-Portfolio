@@ -3,11 +3,16 @@ import { Download } from "lucide-react";
 import { Sun, Moon } from "lucide-react";
 
 function Navbar({ nav_json, darkMode, toggleTheme }) {
-	const [menu, setMenu] = React.useState(false);
-
+	const [menu, setMenu] = useState(false);
 	return (
 		<nav
-			className={`sticky top-4 z-50 mx-auto mb-2 flex flex-col md:flex-row items-center justify-between px-5 py-3 backdrop-blur-xl border rounded-xl tracking-tight transition-all duration-300 w-full md:w-fit ${darkMode ? "bg-black/30 text-neutral-200 border-white/10 shadow-[0_0_25px_rgba(255,255,255,0.06)]" : "bg-white/30 text-neutral-800 border-neutral-200 shadow-lg shadow-black/5"}`}
+			className={`
+			sticky top-4 z-50 mx-auto mb-2
+			flex flex-col md:flex-row items-center justify-between
+			px-5 py-3 backdrop-blur-xl border rounded-xl tracking-tight
+			transition-all duration-300 w-full md:w-fit
+			${darkMode ? "bg-black/30 text-neutral-200 border-white/10 shadow-[0_0_25px_rgba(255,255,255,0.06)]" : "bg-white/30 text-neutral-800 border-neutral-200 shadow-lg shadow-black/5"}
+		`}
 		>
 			<div className="flex items-center justify-between w-full md:w-auto gap-4">
 				<a
@@ -35,9 +40,66 @@ function Navbar({ nav_json, darkMode, toggleTheme }) {
 				<button
 					onClick={toggleTheme}
 					className={`cursor-pointer p-1.5 rounded-lg transition-all duration-300 ${darkMode ? "hover:bg-white/10 text-neutral-400 hover:text-white" : "hover:bg-black/5 text-neutral-600 hover:text-black"}`}
+					aria-label="Toggle theme"
 				>
 					{darkMode ? <Sun size={17} /> : <Moon size={17} />}
 				</button>
+
+				<button
+					onClick={() => setMenu(!menu)}
+					className="md:hidden p-2 rounded-lg cursor-pointer transition hover:bg-white/5"
+					aria-label="Toggle menu"
+				>
+					{!menu ? (
+						<svg
+							className="w-6 h-6"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M4 6h16M4 12h16M4 18h16"
+							/>
+						</svg>
+					) : (
+						<svg
+							className="w-6 h-6"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								strokeWidth={2}
+								d="M6 18L18 6M6 6l12 12"
+							/>
+						</svg>
+					)}
+				</button>
+			</div>
+
+			<div
+				className={`md:hidden overflow-hidden transition-all duration-300 w-full ${menu ? "max-h-56 mt-3" : "max-h-0"}`}
+			>
+				<ul
+					className={`flex flex-col rounded-lg border p-3 gap-2 text-center shadow-md ${darkMode ? "bg-black/40 border-white/10 shadow-[0_0_15px_rgba(255,255,255,0.05)]" : "bg-white/90 border-neutral-200 shadow-black/5"}`}
+				>
+					{nav_json.map((item) => (
+						<li key={item.label}>
+							<a
+								href={item.href}
+								onClick={() => setMenu(false)}
+								className="cursor-pointer block py-2 opacity-90 hover:opacity-100 transition"
+							>
+								{item.label}
+							</a>
+						</li>
+					))}
+				</ul>
 			</div>
 		</nav>
 	);
